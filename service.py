@@ -1,10 +1,8 @@
-import os
 import requests
 
 class OpenWeatherService:
     """
-    A service class to interact with the OpenWeather API.
-    It provides methods to get the current weather of a given city.
+    A service class to interact with the OpenWeather API and get current weather data for a city.
     """
     API_BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
@@ -13,19 +11,18 @@ class OpenWeatherService:
 
     def get_weather_data(self, city_name: str) -> dict:
         """
-        Fetch the current weather details for a given city.
+        Get the current weather for a city.
 
         Args:
-            city_name (str): The name of the city to fetch weather for.
+            city_name (str): The name of the city.
 
         Returns:
-            dict: A dictionary containing weather details.
-                  If city not found or an error occurs, it returns an empty dict.
+            dict: Weather details, or an empty dictionary if there's an error.
         """
         params = {
             "q": city_name,
             "appid": self.api_key,
-            "units": "imperial"  # Using imperial units for temperature (Fahrenheit)
+            "units": "imperial"  # Temperature in Fahrenheit
         }
 
         try:
@@ -40,5 +37,5 @@ class OpenWeatherService:
                 "wind_speed": data["wind"]["speed"]
             }
         except (requests.RequestException, KeyError):
-            # Any network or data parsing error leads to an empty dictionary.
+            # Return an empty dictionary if there's a problem.
             return {}
